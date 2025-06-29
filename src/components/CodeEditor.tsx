@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AmbientSounds from './AmbientSounds';
 import PomodoroTimer from './PomodoroTimer';
 import MotivationalQuote from './MotivationalQuote';
+import AIAssistant from './AIAssistant';
 
 interface CodeEditorProps {
   user: any;
@@ -34,7 +34,6 @@ const CodeEditor = ({ user, onBack, onUpdateUser }: CodeEditorProps) => {
     lavender: 'bg-gradient-to-br from-purple-800 via-violet-900 to-indigo-900'
   };
 
-  // Auto-save functionality
   useEffect(() => {
     const autoSave = setTimeout(() => {
       if (code.trim() && title.trim()) {
@@ -168,14 +167,41 @@ const CodeEditor = ({ user, onBack, onUpdateUser }: CodeEditorProps) => {
                 </CardContent>
               </Card>
 
-              {/* Ambient Sounds */}
-              <AmbientSounds user={user} onUpdateUser={onUpdateUser} />
-
-              {/* Pomodoro Timer */}
-              <PomodoroTimer user={user} onUpdateUser={onUpdateUser} />
-
-              {/* Motivational Quote */}
-              <MotivationalQuote />
+              {/* Productivity Tools */}
+              <Card className="backdrop-blur-lg bg-white/10 border-white/20">
+                <Tabs defaultValue="sounds" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4 bg-white/10">
+                    <TabsTrigger value="sounds" className="text-white data-[state=active]:bg-white/20 text-xs">
+                      Sounds
+                    </TabsTrigger>
+                    <TabsTrigger value="timer" className="text-white data-[state=active]:bg-white/20 text-xs">
+                      Timer
+                    </TabsTrigger>
+                    <TabsTrigger value="quote" className="text-white data-[state=active]:bg-white/20 text-xs">
+                      Quote
+                    </TabsTrigger>
+                    <TabsTrigger value="ai" className="text-white data-[state=active]:bg-white/20 text-xs">
+                      AI
+                    </TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="sounds" className="mt-4">
+                    <AmbientSounds user={user} onUpdateUser={onUpdateUser} />
+                  </TabsContent>
+                  
+                  <TabsContent value="timer" className="mt-4">
+                    <PomodoroTimer user={user} onUpdateUser={onUpdateUser} />
+                  </TabsContent>
+                  
+                  <TabsContent value="quote" className="mt-4">
+                    <MotivationalQuote />
+                  </TabsContent>
+                  
+                  <TabsContent value="ai" className="mt-4 h-[500px]">
+                    <AIAssistant user={user} onUpdateUser={onUpdateUser} />
+                  </TabsContent>
+                </Tabs>
+              </Card>
             </div>
           )}
 
